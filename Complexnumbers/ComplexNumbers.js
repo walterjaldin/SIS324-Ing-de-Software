@@ -94,6 +94,7 @@ try {
   console.log("Phase:", num1.phase());
   console.log("Power:", num1.power(2).toString());
   console.log("Square Root:", num1.squareRoot().toString());
+  console.log("\nEstudiante : Walter Jaldin Gonzales ");
 } catch (e) {
   console.error(e.message);
 }
