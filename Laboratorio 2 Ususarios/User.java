@@ -1,13 +1,12 @@
 public class User {
-    // Atributos de la clase User
     private int id;
     private String username;
     private String password;
     private String name;
     private String lastEntry;
-    private boolean status;  // Cambiar el tipo de String a boolean
+    private boolean status;
 
-    // Constructor de la clase User
+    // Constructor
     public User(int id, String username, String password, String name, String lastEntry, boolean status) {
         this.id = id;
         this.username = username;
@@ -17,7 +16,7 @@ public class User {
         this.status = status;
     }
 
-    // Métodos Getter y Setter
+    // Métodos getters y setters
     public int getId() {
         return id;
     }
@@ -58,7 +57,7 @@ public class User {
         this.lastEntry = lastEntry;
     }
 
-    public boolean getStatus() {
+    public boolean isStatus() {
         return status;
     }
 
@@ -66,7 +65,7 @@ public class User {
         this.status = status;
     }
 
-    // Método para mostrar la información del usuario
+    // Método para mostrar información del usuario
     @Override
     public String toString() {
         return "User [ID=" + id + ", Username=" + username + ", Name=" + name + ", Last Entry=" + lastEntry + ", Status=" + (status ? "active" : "inactive") + "]";
