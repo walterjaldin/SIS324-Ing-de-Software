@@ -6,12 +6,12 @@ public class Main {
         UserControl userControl = new UserControl(1);
 
         // Crear algunos usuarios iniciales
-        User user1 = new User(1, "john_doe", "password123", "John Doe", "2025-03-06 10:00", true);
-        User user2 = new User(2, "jane_smith", "password456", "Jane Smith", "2025-03-06 11:00", false);
+        //User user1 = new User(1, "john_doe", "password123", "John Doe", "2025-03-06 10:00", true);
+        //User user2 = new User(2, "jane_smith", "password456", "Jane Smith", "2025-03-06 11:00", false);
 
         // Añadir usuarios iniciales
-        userControl.addUser(user1);
-        userControl.addUser(user2);
+        //userControl.addUser(user1);
+        //userControl.addUser(user2);
 
         // Crear el objeto Scanner para leer entradas del usuario
         Scanner scanner = new Scanner(System.in);
