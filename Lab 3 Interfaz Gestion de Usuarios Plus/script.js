@@ -1,127 +1,128 @@
+// Clase User
 class User {
-    constructor(id, username, firstName, lastName, birthdate, idCard, phone, email, password, role = "user") {
-        this.id = id;
-        this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthdate = birthdate;
-        this.idCard = idCard;
-        this.phone = phone;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
+  constructor(name, password) {
+      this.name = name;
+      this.password = password; // Contraseña del usuario
+  }
 
-    validPassword(inputPassword) {
-        return this.password === inputPassword;
-    }
+  // Método para validar la contraseña
+  validPassword(password) {
+      return this.password === password;
+  }
 }
 
-class UserControl {
-    constructor() {
-        this.users = [];
-        this.loadUsers();
-        this.currentUser = null;
+// Clase UserController
+class UserController {
+  constructor() {
+      this.users = [];
+      this.attempts = 0; // Intentos de login
+      this.isLoggedIn = false;
+      this.loggedUser = null;
 
-        // Agregar usuario admin si no existe
-        if (!this.users.some(user => user.username === "admin")) {
-            this.addUser("admin", "Admin", "User", "2000-01-01", "00000000", "0000000000", "admin@admin.com", "admin", "admin");
-        }
-    }
+      // Usuario por defecto con privilegios de superusuario
+      this.addUser("user", "admin"); // usuario admin por defecto
+  }
 
-    addUser(username, firstName, lastName, birthdate, idCard, phone, email, password, role = "user") {
-        const id = this.users.length ? this.users[this.users.length - 1].id + 1 : 1;
-        const user = new User(id, username, firstName, lastName, birthdate, idCard, phone, email, password, role);
-        this.users.push(user);
-        this.saveUsers();
-    }
+  // Validar el usuario y la contraseña
+  validUser(username, password) {
+      const user = this.users.find(user => user.name === username);
+      if (user && user.validPassword(password)) {
+          this.loggedUser = user;
+          this.isLoggedIn = true;
+          return true;
+      }
+      return false;
+  }
 
-    validUser(username) {
-        return this.users.find(user => user.username === username);
-    }
+  // Método para agregar un nuevo usuario
+  addUser(name, password) {
+      const user = new User(name, password);
+      this.users.push(user);
+  }
 
-    login(username, password) {
-        const user = this.validUser(username);
-        if (user && user.validPassword(password)) {
-            alert(`Bienvenido, ${user.username}`);
-            this.currentUser = user;
-            document.getElementById('loginContainer').style.display = 'none';
-            document.getElementById('appContainer').style.display = 'block';
-            document.getElementById('welcomeMessage').textContent = `Bienvenido, ${user.username}`;
+  // Método para eliminar un usuario
+  removeUser(index) {
+      this.users.splice(index, 1);
+  }
 
-            if (user.role === "admin") {
-                document.getElementById('adminControls').style.display = 'block';
-            } else {
-                document.getElementById('adminControls').style.display = 'none';
-            }
+  // Método para modificar un usuario
+  modifyUser(index, newName, newPassword) {
+      const user = this.users[index];
+      if (user) {
+          user.name = newName;
+          user.password = newPassword;
+      }
+  }
 
-            this.renderUsers();
-            return true;
-        } else {
-            alert('Usuario o contraseña incorrectos');
-            return false;
-        }
-    }
+  // Método para controlar la lógica de intentos de login
+  login(username, password) {
+      if (this.attempts >= 3) {
+          alert("Has superado el número de intentos permitidos.");
+          return;
+      }
 
-    saveUsers() {
-        localStorage.setItem('users', JSON.stringify(this.users));
-        this.renderUsers();
-    }
+      if (this.validUser(username, password)) {
+          this.attempts = 0; // Resetear intentos al iniciar sesión correctamente
+          alert("¡Bienvenido, " + username + "!");
+          this.renderUserManagement(); // Mostrar la gestión de usuarios
+      } else {
+          this.attempts++;
+          alert("Usuario o contraseña incorrectos. Intentos restantes: " + (3 - this.attempts));
+      }
+  }
 
-    loadUsers() {
-        const usersData = localStorage.getItem('users');
-        this.users = usersData ? JSON.parse(usersData) : [];
-    }
-
-    renderUsers() {
-        const userList = document.getElementById('userList');
-        userList.innerHTML = '';
-
-        this.users.forEach(user => {
-            if (this.currentUser.role === "admin" || this.currentUser.username === user.username) {
-                const li = document.createElement('li');
-                li.textContent = `${user.username} - ${user.firstName} ${user.lastName} - CI: ${user.idCard}`;
-
-                const editButton = document.createElement('button');
-                editButton.textContent = 'Editar';
-                editButton.onclick = () => this.editUser(user.id);
-
-                li.appendChild(editButton);
-
-                if (this.currentUser.role === "admin") {
-                    const deleteButton = document.createElement('button');
-                    deleteButton.textContent = 'Eliminar';
-                    deleteButton.onclick = () => this.deleteUser(user.id);
-                    li.appendChild(deleteButton);
-                }
-
-                userList.appendChild(li);
-            }
-        });
-    }
-
-    editUser(id) {
-        const user = this.users.find(user => user.id === id);
-        if (user && (this.currentUser.role === "admin" || this.currentUser.username === user.username)) {
-            user.firstName = prompt('Nuevo nombre:', user.firstName) || user.firstName;
-            user.lastName = prompt('Nuevos apellidos:', user.lastName) || user.lastName;
-            this.saveUsers();
-        }
-    }
-
-    deleteUser(id) {
-        if (this.currentUser.role === "admin") {
-            this.users = this.users.filter(user => user.id !== id);
-            this.saveUsers();
-        }
-    }
+  renderUserManagement() {
+      // Mostrar los botones y la tabla de gestión de usuarios
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("userManagement").style.display = "block";
+      
+      // Mostrar lista de usuarios
+      const userTable = document.getElementById("userTable").getElementsByTagName("tbody")[0];
+      userTable.innerHTML = "";
+      
+      this.users.forEach((user, index) => {
+          const row = userTable.insertRow();
+          row.innerHTML = `<td>${user.name}</td><td>
+              <button onclick="editUser(${index})">Editar</button>
+              <button onclick="deleteUser(${index})">Eliminar</button>
+          </td>`;
+      });
+  }
 }
 
-const userControl = new UserControl();
+// Crear un controlador de usuarios
+const userController = new UserController();
 
-document.getElementById('loginForm').onsubmit = function(event) {
-    event.preventDefault();
-    const username = document.getElementById('loginUsername').value;
-    const password = document.getElementById('loginPassword').value;
-    userControl.login(username, password);
-};
+// Función para manejar el login
+document.getElementById("loginBtn").addEventListener("click", () => {
+  const username = document.getElementById("loginUsername").value;
+  const password = document.getElementById("loginPassword").value;
+  userController.login(username, password);
+});
+
+// Función para agregar usuario
+document.getElementById("addUserBtn").addEventListener("click", () => {
+  const username = document.getElementById("userName").value;
+  if (userController.loggedUser.name === "user") {
+      // El superusuario puede agregar usuarios
+      userController.addUser(username, "default");
+      userController.renderUserManagement();
+  } else {
+      alert("Solo el superusuario puede agregar usuarios.");
+  }
+});
+
+// Funciones de edición y eliminación
+function editUser(index) {
+  const newName = prompt("Nuevo nombre de usuario:");
+  const newPassword = prompt("Nueva contraseña:");
+  userController.modifyUser(index, newName, newPassword);
+  userController.renderUserManagement();
+}
+
+function deleteUser(index) {
+  if (confirm("¿Estás seguro de que deseas eliminar este usuario?")) {
+      userController.removeUser(index);
+      userController.renderUserManagement();
+  }
+}

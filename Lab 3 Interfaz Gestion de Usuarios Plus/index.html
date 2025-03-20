@@ -4,38 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Usuarios</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Gestión de Usuarios</h1>
+    <div class="container">
+        <h1>Login al Sistema</h1>
 
-    <div id="loginContainer">
-        <h2>Iniciar Sesión</h2>
-        <form id="loginForm">
-            <input type="text" id="loginUsername" placeholder="Usuario" required>
-            <input type="password" id="loginPassword" placeholder="Contraseña" required>
-            <button type="submit">Ingresar</button>
-        </form>
-    </div>
-
-    <div id="appContainer" style="display:none;">
-        <h2 id="welcomeMessage"></h2>
-        <div id="adminControls" style="display:none;">
-            <h2>Agregar Usuario</h2>
-            <form id="addUserForm">
-                <input type="text" id="userUsername" placeholder="Nombre de usuario" required>
-                <input type="text" id="userFirstName" placeholder="Nombres" required>
-                <input type="text" id="userLastName" placeholder="Apellidos" required>
-                <input type="date" id="userBirthdate" required>
-                <input type="text" id="userIdCard" placeholder="Carnet de Identidad" required>
-                <input type="tel" id="userPhone" placeholder="Teléfono" required>
-                <input type="email" id="userEmail" placeholder="Correo Electrónico" required>
-                <input type="password" id="userPassword" placeholder="Contraseña" required>
-                <button type="submit">Agregar Usuario</button>
-            </form>
+        <!-- Formulario de login -->
+        <div id="loginForm">
+            <div class="form-group">
+                <label for="loginUsername">Nombre de usuario:</label>
+                <input type="text" id="loginUsername" placeholder="Nombre del usuario">
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Contraseña:</label>
+                <input type="password" id="loginPassword" placeholder="Contraseña">
+            </div>
+            <button id="loginBtn">Iniciar sesión</button>
         </div>
-        <h2>Lista de Usuarios</h2>
-        <ul id="userList"></ul>
+
+        <!-- Vista de gestión de usuarios (Solo visible después de iniciar sesión) -->
+        <div id="userManagement" style="display:none;">
+            <h1>Gestión de Usuarios</h1>
+
+            <!-- Formulario para agregar o modificar usuario -->
+            <div class="form-group">
+                <label for="userName">Nombre de usuario:</label>
+                <input type="text" id="userName" placeholder="Nombre del usuario">
+            </div>
+            <button id="addUserBtn">Agregar Usuario</button>
+
+            <!-- Lista de usuarios -->
+            <h2>Usuarios:</h2>
+            <table id="userTable">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
 
     <script src="script.js"></script>
