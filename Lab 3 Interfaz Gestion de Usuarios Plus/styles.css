@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #E0F8F7; /* Verde agua claro */
-    color: #00796B; /* Verde agua oscuro */
+    background-color: #E0F8F7;
+    color: #00796B;
     max-width: 600px;
     margin: auto;
     padding: 20px;
@@ -9,7 +9,7 @@ body {
 }
 
 form {
-    background: #A7FFEB; /* Verde agua intermedio */
+    background: #A7FFEB;
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 20px;

@@ -12,24 +12,29 @@
     <div id="loginContainer">
         <h2>Iniciar Sesión</h2>
         <form id="loginForm">
-            <input type="email" id="loginEmail" placeholder="Correo Electrónico" required>
+            <input type="text" id="loginUsername" placeholder="Usuario" required>
             <input type="password" id="loginPassword" placeholder="Contraseña" required>
             <button type="submit">Ingresar</button>
         </form>
     </div>
 
     <div id="appContainer" style="display:none;">
-        <h2>Agregar Usuario</h2>
-        <form id="addUserForm">
-            <input type="text" id="userFirstName" placeholder="Nombres" required>
-            <input type="text" id="userLastName" placeholder="Apellidos" required>
-            <input type="date" id="userBirthdate" required>
-            <input type="text" id="userIdCard" placeholder="Carnet de Identidad" required>
-            <input type="tel" id="userPhone" placeholder="Teléfono" required>
-            <input type="email" id="userEmail" placeholder="Correo Electrónico" required>
-            <input type="password" id="userPassword" placeholder="Contraseña" required>
-            <button type="submit">Agregar Usuario</button>
-        </form>
+        <h2 id="welcomeMessage"></h2>
+        <div id="adminControls" style="display:none;">
+            <h2>Agregar Usuario</h2>
+            <form id="addUserForm">
+                <input type="text" id="userUsername" placeholder="Nombre de usuario" required>
+                <input type="text" id="userFirstName" placeholder="Nombres" required>
+                <input type="text" id="userLastName" placeholder="Apellidos" required>
+                <input type="date" id="userBirthdate" required>
+                <input type="text" id="userIdCard" placeholder="Carnet de Identidad" required>
+                <input type="tel" id="userPhone" placeholder="Teléfono" required>
+                <input type="email" id="userEmail" placeholder="Correo Electrónico" required>
+                <input type="password" id="userPassword" placeholder="Contraseña" required>
+                <button type="submit">Agregar Usuario</button>
+            </form>
+        </div>
+        <h2>Lista de Usuarios</h2>
         <ul id="userList"></ul>
     </div>
 
